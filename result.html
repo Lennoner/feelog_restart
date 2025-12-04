@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>색으로 보는 나의 기록</title>
+<link rel="stylesheet" href="result.css">
+</head>
+<body>
+
+<div class="frame">
+  <header class="top">
+    <a class="back" href="index.html">← 오늘 다시 기록하기</a>
+  </header>
+
+  <main class="layout">
+
+    <!-- 왼쪽 큰 카드 영역 -->
+    <section class="left">
+      <div class="poster">
+        <p class="phrase">언젠가는 너의 한 해가 색으로 보일 거야.</p>
+
+        <!-- 색 점들이 오른쪽 아래에서 쌓이는 영역 -->
+        <div id="dots" class="poster-dots"></div>
+      </div>
+    </section>
+
+    <!-- 오른쪽 안내 텍스트 -->
+    <section class="right">
+      <h2 class="section-title">지금까지 모인 색</h2>
+      <p class="section-desc">
+        원 하나가 하루를 뜻해요. <br>
+        오른쪽 아래에서부터 차곡차곡 쌓여요. <br>
+        아무 원이나 눌러서 그날의 기록을 다시 볼 수 있어요.
+      </p>
+      <p id="empty" class="empty" hidden>
+        아직 기록된 하루가 없어요.<br>첫 색을 선택해 기록을 시작해봐.
+      </p>
+    </section>
+
+  </main>
+</div>
+
+<script>
+const params = new URLSearchParams(location.search);
+const focusId = params.get("id") || null;
+
+const arr = JSON.parse(localStorage.getItem("feelog") || "[]");
+const dotsEl = document.getElementById("dots");
+const emptyEl = document.getElementById("empty");
+
+if (!arr.length) {
+  emptyEl.hidden = false;
+} else {
+  emptyEl.hidden = true;
+
+  // 시간 순서대로 dot 생성
+  arr.forEach(e => {
+    const b = document.createElement("button");
+    b.className = "dot";
+    b.style.background = e.color;
+
+    if (e.id === focusId) {
+      b.classList.add("dot-focus");
+    }
+
+    b.title = new Date(e.date).toLocaleDateString("ko-KR");
+    b.addEventListener("click", () => {
+      location.href = "history.html?id=" + e.id;
+    });
+
+    dotsEl.appendChild(b);
+  });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>보관함 – 쌓여가는 색깔 편지</title>
+<link rel="stylesheet" href="result_stash.css">
+</head>
+<body>
+
+<div class="frame">
+  <header class="top">
+    <a href="index.html" class="back">← 오늘 다시 기록하기</a>
+  </header>
+
+  <main class="stash-main">
+    <section class="box-area">
+      <h1 class="title">오늘의 한 줄이 상자 속에 살짝 쌓였어요.</h1>
+      <p class="subtitle">색깔 레이어 하나가 오늘의 기분과 한 줄 편지를 대신해요.</p>
+
+      <div class="stash-box">
+        <div id="layers" class="layers"></div>
+      </div>
+    </section>
+
+    <section class="cta-area">
+      <p class="guide">쌓여온 색들이 궁금하다면, 아래 버튼을 눌러 펼쳐봐.</p>
+      <button id="open" class="open-btn">[펼치기]</button>
+    </section>
+  </main>
+</div>
+
+<script>
+const params = new URLSearchParams(location.search);
+const focusId = params.get("focus") || null;
+
+const arr = JSON.parse(localStorage.getItem("feelog") || "[]");
+const layersEl = document.getElementById("layers");
+
+if (!arr.length) {
+  layersEl.innerHTML = '<p class="empty">아직 쌓인 편지가 없어요.<br>첫 색을 선택해 기록을 시작해봐.</p>';
+} else {
+  const latest8 = arr.slice(-8);
+  latest8.forEach((e, index) => {
+    const div = document.createElement("div");
+    div.className = "layer";
+    div.style.background = e.color;
+    div.style.bottom = (12 + index * 20) + "px";
+    if (e.id === focusId) {
+      div.classList.add("highlight");
+    }
+    layersEl.appendChild(div);
+  });
+}
+
+document.getElementById("open").addEventListener("click", () => {
+  location.href = focusId ? ("result.html?id=" + focusId) : "result.html";
+});
+</script>
+
+</body>
+</html>

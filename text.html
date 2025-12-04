@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>오늘 기록하기</title>
+<link rel="stylesheet" href="text.css">
+</head>
+<body class="text-page">
+
+<main class="center-box text-page">
+  <h2 class="ask">내일(어제)의 너에게,<br>오늘을 한 줄로 소개해줘</h2>
+
+  <textarea id="text" class="input" placeholder="한 줄로 적어보세요"></textarea>
+
+  <button id="save" class="save-btn">[보관하기]</button>
+
+  <!-- 플라잉 카드(애니메이션용) -->
+  <div id="fly" class="fly-card" aria-hidden="true"></div>
+</main>
+
+<script>
+function getLuma(hex) {
+  if (!hex) return 255;
+  hex = hex.replace("#", "");
+  if (hex.length === 3) hex = hex.split("").map(h => h + h).join("");
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+function qs(name) {
+  return new URLSearchParams(location.search).get(name);
+}
+
+/* --- 배경색 결정: URL > 마지막 선택값 --- */
+let color = null;
+const colorParam = qs("color");
+if (colorParam) {
+  color = "#" + colorParam;
+} else {
+  color = localStorage.getItem("feelog_lastColor") || "#ffffff";
+}
+
+if (color) {
+  document.body.style.background = color;
+  const luma = getLuma(color);
+  if (luma < 140) {
+    document.body.classList.add("dark-bg");
+  }
+}
+
+/* --- 텍스트 자동 높이 조절 --- */
+const t = document.getElementById("text");
+t.addEventListener("input", () => {
+  t.style.height = "auto";
+  t.style.height = t.scrollHeight + "px";
+});
+
+/* --- 플라이 애니메이션 및 저장 처리 --- */
+const fly = document.getElementById("fly");
+const saveBtn = document.getElementById("save");
+
+saveBtn.addEventListener("click", () => {
+  const txt = t.value.trim();
+  if (!txt) return;
+
+  const rect = t.getBoundingClientRect();
+
+  fly.textContent = txt;
+  fly.style.display = "block";
+  fly.style.background = color || "#ffffff";
+  const luma = getLuma(color || "#ffffff");
+  fly.style.color = (luma < 140) ? "#ffffff" : "#111111";
+  fly.style.left = rect.left + "px";
+  fly.style.top = rect.top + "px";
+  fly.style.width = rect.width + "px";
+  fly.style.transform = "translate(0, 0) scale(1)";
+  fly.style.opacity = "1";
+
+  // 애니메이션: 화면 아래쪽(가상의 상자 위치)으로 이동
+  const targetX = (window.innerWidth / 2) - (rect.left + rect.width / 2);
+  const targetY = (window.innerHeight - rect.bottom) - 120;
+
+  requestAnimationFrame(() => {
+    fly.style.transform = "translate(" + targetX + "px, " + targetY + "px) scale(0.55)";
+    fly.style.opacity = "0";
+  });
+
+  const entry = {
+    id: "f_" + Date.now(),
+    text: txt,
+    color: color || "#ffffff",
+    date: new Date().toISOString()
+  };
+
+  const list = JSON.parse(localStorage.getItem("feelog") || "[]");
+  list.push(entry);
+  localStorage.setItem("feelog", JSON.stringify(list));
+
+  setTimeout(() => {
+    location.href = "result_stash.html?focus=" + entry.id;
+  }, 520);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,141 @@
+/* ========== text page 전용 스타일 ========== */
+body.text-page {
+  margin: 0;
+  font-family: "Noto Sans KR", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  min-height: 100vh;
+  transition: background 0.35s ease;
+  color: #000000;
+  padding: 24px 18px;
+  box-sizing: border-box;
+}
+
+/* 어두운 배경일 때 대비 모드 */
+body.text-page.dark-bg {
+  color: #ffffff;
+}
+
+body.text-page.dark-bg .ask {
+  color: #ffffff;
+}
+
+body.text-page.dark-bg .input {
+  border-color: #ffffff;
+  color: #ffffff;
+}
+
+body.text-page.dark-bg .input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+body.text-page.dark-bg .save-btn {
+  border-color: #ffffff;
+  color: #ffffff;
+}
+
+.center-box {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 질문 문장 */
+.ask {
+  margin: 0 0 48px 0;
+  font-size: 26px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.5;
+  max-width: 100%;
+  color: #000000;
+}
+
+/* 입력창 */
+.input {
+  width: 100%;
+  max-width: 520px;
+  min-height: 70px;
+  font-size: 18px;
+  border: 2px solid #000000;
+  border-radius: 14px;
+  padding: 16px 20px;
+  outline: none;
+  resize: none;
+  box-sizing: border-box;
+  background: transparent;
+  color: inherit;
+  font-family: "Noto Sans KR", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.input::placeholder {
+  color: rgba(0, 0, 0, 0.48);
+  text-align: center;
+}
+
+/* 기록 버튼 */
+.save-btn {
+  padding: 12px 32px;
+  font-size: 17px;
+  font-weight: 700;
+  background: transparent;
+  color: inherit;
+  border: 2px solid currentColor;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.1s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.save-btn:hover {
+  background: rgba(0, 0, 0, 0.04);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+}
+
+.save-btn:active {
+  transform: scale(0.96);
+  box-shadow: none;
+}
+
+/* 플라이 카드 (animated) */
+.fly-card {
+  position: fixed;
+  display: none;
+  z-index: 9999;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-weight: 700;
+  background: #ffffff;
+  color: #111111;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+/* 작은 화면 대응 */
+@media (max-width: 520px) {
+  body.text-page {
+    padding: 18px 14px;
+  }
+
+  .ask {
+    font-size: 22px;
+    margin-bottom: 34px;
+  }
+
+  .input {
+    font-size: 16px;
+    margin-bottom: 48px;
+  }
+
+  .save-btn {
+    font-size: 16px;
+    padding: 10px 26px;
+  }
+}

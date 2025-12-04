@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FEELOG – 오늘의 색을 골라줘</title>
+  <link rel="stylesheet" href="index.css">
+
+  <!-- Pretendard CDN (고딕체) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard/dist/web/static/pretendard.css" />
+</head>
+
+<body>
+
+  <div class="wrap">
+
+    <header class="header">
+      <h1 class="logo">FEELOG</h1>
+      <p class="subtitle">오늘 하루의 색을 골라줘</p>
+    </header>
+
+    <main class="palette">
+      <div class="palette-grid">
+
+        <!-- 30 색상 -->
+        <button class="color" style="--c:#E73728" data-color="#E73728"></button>
+        <button class="color" style="--c:#A7562A" data-color="#A7562A"></button>
+        <button class="color" style="--c:#DBA47E" data-color="#DBA47E"></button>
+        <button class="color" style="--c:#DBB49F" data-color="#DBB49F"></button>
+        <button class="color" style="--c:#EDDCCD" data-color="#EDDCCD"></button>
+
+        <button class="color" style="--c:#F1C232" data-color="#F1C232"></button>
+        <button class="color" style="--c:#F4A742" data-color="#F4A742"></button>
+        <button class="color" style="--c:#C98826" data-color="#C98826"></button>
+        <button class="color" style="--c:#FAF655" data-color="#FAF655"></button>
+        <button class="color" style="--c:#EBE55C" data-color="#EBE55C"></button>
+
+        <button class="color" style="--c:#6C2E9C" data-color="#6C2E9C"></button>
+        <button class="color" style="--c:#071C54" data-color="#071C54"></button>
+        <button class="color" style="--c:#D597D0" data-color="#D597D0"></button>
+        <button class="color" style="--c:#F43AA8" data-color="#F43AA8"></button>
+        <button class="color" style="--c:#7FE1EE" data-color="#7FE1EE"></button>
+
+        <button class="color" style="--c:#47A048" data-color="#47A048"></button>
+        <button class="color" style="--c:#A1D078" data-color="#A1D078"></button>
+        <button class="color" style="--c:#C8E0A6" data-color="#C8E0A6"></button>
+        <button class="color" style="--c:#E0EDCF" data-color="#E0EDCF"></button>
+        <button class="color" style="--c:#6AA43A" data-color="#6AA43A"></button>
+
+        <button class="color" style="--c:#3774C7" data-color="#3774C7"></button>
+        <button class="color" style="--c:#5A8FCE" data-color="#5A8FCE"></button>
+        <button class="color" style="--c:#A3C7E8" data-color="#A3C7E8"></button>
+        <button class="color" style="--c:#DCE8F4" data-color="#DCE8F4"></button>
+        <button class="color" style="--c:#23527A" data-color="#23527A"></button>
+
+        <button class="color" style="--c:#000000" data-color="#000000"></button>
+        <button class="color" style="--c:#2A2A2A" data-color="#2A2A2A"></button>
+        <button class="color" style="--c:#9B9C9C" data-color="#9B9C9C"></button>
+        <button class="color" style="--c:#BCBCBC" data-color="#BCBCBC"></button>
+        <button class="color" style="--c:#D4D4D4" data-color="#D4D4D4"></button>
+
+      </div>
+    </main>
+
+  </div>
+
+  <script>
+    document.querySelectorAll(".color").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const hex = btn.dataset.color.replace("#", "");
+        localStorage.setItem("feelog_lastColor", "#" + hex);
+        location.href = "text.html?color=" + hex;
+      });
+    });
+  </script>
+
+</body>
+</html>
+
